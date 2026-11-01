@@ -1,0 +1,422 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#10233b">
+  <meta name="description" content="Навчальний центр керування AI-потопом: WebHMI, аварійна труба, тест і реєстрація на ковчег.">
+  <title>AIпотоп — коли код пішов не по трубі</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      color: #172033;
+      background: #f4f7fb;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      position: relative;
+      isolation: isolate;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 22px;
+      padding: 24px 18px;
+    }
+
+    body::before, body::after {
+      content: "";
+      position: fixed;
+      inset: -3vh -3vw;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    body::before {
+      background: linear-gradient(110deg, rgb(7 18 43 / 25%), transparent 58%),
+        url("assets/ai-pipe-flood-ark.png") center / cover no-repeat;
+      opacity: .48;
+      animation: flood-drift 28s ease-in-out infinite alternate;
+    }
+
+    body::after {
+      inset: auto 0 -45vh;
+      height: 75vh;
+      background: linear-gradient(0deg, rgb(32 177 224 / 26%), rgb(54 199 237 / 10%) 44%, transparent 82%);
+      filter: blur(18px);
+      animation: water-rise 12s ease-in-out infinite alternate;
+    }
+
+    @keyframes flood-drift {
+      from { transform: scale(1) translate3d(-.4%, 0, 0); }
+      to { transform: scale(1.07) translate3d(.4%, -1%, 0); }
+    }
+
+    @keyframes water-rise {
+      from { transform: translateY(12vh); opacity: .55; }
+      to { transform: translateY(-8vh); opacity: 1; }
+    }
+
+    header, nav, main, footer {
+      width: min(100%, 760px);
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 10px 4px;
+    }
+
+    .brand {
+      margin: 0;
+      color: #26345b;
+      font-size: 1.1rem;
+      font-weight: 800;
+    }
+
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    nav a {
+      padding: 9px 13px;
+      border: 1px solid #dce3f1;
+      background: rgb(255 255 255 / 24%);
+      backdrop-filter: blur(5px);
+      color: #4055a6;
+    }
+
+    nav a:hover { background: #edf1ff; }
+    nav a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible {
+      outline: 3px solid #172033;
+      outline-offset: 3px;
+    }
+
+    main {
+      display: grid;
+      gap: 18px;
+    }
+
+    section, aside {
+      padding: clamp(28px, 7vw, 56px);
+      border: 1px solid #e2e8f0;
+      border-radius: 24px;
+      background: rgb(255 255 255 / 22%);
+      backdrop-filter: blur(5px) saturate(1.12);
+      box-shadow: 0 18px 50px rgb(27 45 75 / 12%);
+    }
+
+    article {
+      padding: 20px;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      background: rgb(248 249 253 / 28%);
+      backdrop-filter: blur(3px);
+    }
+
+    article h3 { margin-top: 0; }
+
+    .quiz-section, .signup-section { padding: clamp(24px, 5vw, 38px); }
+
+    .quiz-intro, .signup-intro { color: #596579; line-height: 1.65; }
+
+    .question {
+      margin: 20px 0;
+      padding: 18px;
+      border: 1px solid #dce3f1;
+      border-radius: 16px;
+      background: rgb(248 249 253 / 28%);
+      backdrop-filter: blur(3px);
+    }
+
+    .question legend { padding: 0 6px; font-weight: 750; }
+    .question-hint { margin: 2px 0 12px; color: #687386; font-size: .9rem; }
+
+    .answer-option {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 8px 4px;
+      line-height: 1.45;
+      cursor: pointer;
+    }
+
+    .answer-option input { margin-top: 4px; accent-color: #5269d9; }
+
+    button {
+      border: 0;
+      border-radius: 12px;
+      padding: 12px 18px;
+      background: #5269d9;
+      color: #fff;
+      font: inherit;
+      font-weight: 750;
+      cursor: pointer;
+    }
+
+    button:hover { background: #4055c2; }
+
+    .result {
+      margin-top: 18px;
+      padding: 16px;
+      border-radius: 14px;
+      background: rgb(237 241 255 / 54%);
+      backdrop-filter: blur(4px);
+      line-height: 1.6;
+    }
+
+    .result:empty { display: none; }
+    .result ul { margin-bottom: 0; padding-left: 22px; }
+
+    .form-grid { display: grid; gap: 16px; }
+    .form-field { display: grid; gap: 7px; font-weight: 700; }
+
+    .form-field input, .form-field select {
+      width: 100%;
+      min-height: 46px;
+      padding: 10px 12px;
+      border: 1px solid #cbd4e4;
+      border-radius: 10px;
+      background: rgb(255 255 255 / 66%);
+      backdrop-filter: blur(4px);
+      color: #172033;
+      font: inherit;
+    }
+
+    .privacy-note { color: #687386; font-size: .9rem; line-height: 1.5; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+      }
+    }
+
+    aside {
+      padding: 22px 26px;
+      background: rgb(237 241 255 / 28%);
+      box-shadow: none;
+    }
+
+    aside h2 { margin-top: 0; }
+
+    .label {
+      margin: 0 0 12px;
+      color: #5269d9;
+      font-size: .8rem;
+      font-weight: 750;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2rem, 8vw, 3.5rem);
+      line-height: 1.05;
+      letter-spacing: -.045em;
+    }
+
+    .intro {
+      margin: 20px 0 28px;
+      color: #596579;
+      font-size: 1.08rem;
+      line-height: 1.7;
+    }
+
+    a {
+      display: inline-block;
+      padding: 12px 18px;
+      border-radius: 12px;
+      background: #5269d9;
+      color: #fff;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    a:hover { background: #4055c2; }
+    a:focus-visible { outline: 3px solid #172033; outline-offset: 3px; }
+
+    footer {
+      color: #687386;
+      font-size: .9rem;
+      text-align: center;
+    }
+
+    footer p { margin: 0; }
+
+    @media (max-width: 520px) {
+      header { align-items: flex-start; flex-direction: column; }
+      section { padding: 28px 22px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <p class="brand">AIпотоп · аварійний штаб</p>
+    <nav aria-label="Навігація аварійним штабом">
+      <a href="#about">Звідки вода?</a>
+      <a href="#example">Звіт оператора</a>
+      <a href="#more">Порада штабу</a>
+      <a href="#quiz">Перевірити AI</a>
+      <a href="#ark-signup">На ковчег!</a>
+    </nav>
+  </header>
+
+  <main>
+    <section id="about" aria-labelledby="page-title">
+      <p class="label">Термінове повідомлення з диспетчерської</p>
+      <h1 id="page-title">AI писав код. Труба прочитала його буквально.</h1>
+      <p class="intro">
+        Робот попросили оптимізувати водогін через WebHMI. Він оптимізував. Тепер у світу
+        новий басейн, а в оператора — дуже довга розмова з відділом техніки безпеки.
+      </p>
+      <article id="example">
+        <h2>Звіт оператора, який «відійшов на хвилинку»</h2>
+        <p>«Я натиснув “Автоматичний режим”. Система відповіла: “Зрозуміла”. Мабуть, треба було уточнити — автоматичний режим чого саме».</p>
+        <a href="https://developer.mozilla.org/uk/docs/Web/HTML" target="_blank" rel="noreferrer">
+          Вивчити HTML, поки сухо
+        </a>
+      </article>
+    </section>
+
+    <aside id="more" aria-labelledby="aside-title">
+      <h2 id="aside-title">Порада аварійного штабу</h2>
+      <p>Якщо AI каже «все під контролем», перевір, де саме він поставив контрольний клапан. І чи не в акваріумі.</p>
+    </aside>
+
+    <section class="quiz-section" id="quiz" aria-labelledby="quiz-title">
+      <p class="label">Атестація перед посадкою</p>
+      <h2 id="quiz-title">Хто затопив планету: AI чи оператор із кавою?</h2>
+      <p class="quiz-intro">П’ять запитань допоможуть відрізнити справжні ризики AI від паніки. Десь одна відповідь, десь кілька — читай підказку, бо ковчег не гумовий.</p>
+
+      <form id="ai-quiz">
+        <fieldset class="question" data-question="q1" data-type="single" data-correct="b">
+          <legend>1. Що найточніше описує сучасний AI?</legend>
+          <p class="question-hint">Одна правильна відповідь</p>
+          <label class="answer-option"><input type="radio" name="q1" value="a" required> Система, яка завжди думає й відчуває як людина.</label>
+          <label class="answer-option"><input type="radio" name="q1" value="b"> Програма, що виконує завдання на основі даних і заданих методів.</label>
+          <label class="answer-option"><input type="radio" name="q1" value="c"> Надприродна сила, яка сама вирішує долю людства.</label>
+        </fieldset>
+
+        <fieldset class="question" data-question="q2" data-type="multiple" data-correct="a,c">
+          <legend>2. Які проблеми можуть виникнути, навіть якщо робот не планує світове панування?</legend>
+          <p class="question-hint">Кілька правильних відповідей</p>
+          <label class="answer-option"><input type="checkbox" name="q2" value="a"> Упереджені дані можуть призвести до несправедливих результатів.</label>
+          <label class="answer-option"><input type="checkbox" name="q2" value="b"> Будь-яка відповідь AI автоматично є правдивою.</label>
+          <label class="answer-option"><input type="checkbox" name="q2" value="c"> Помилки AI можуть мати наслідки, якщо результат не перевіряти.</label>
+          <label class="answer-option"><input type="checkbox" name="q2" value="d"> Кожен AI неодмінно захоче знищити людей.</label>
+        </fieldset>
+
+        <fieldset class="question" data-question="q3" data-type="single" data-correct="c">
+          <legend>3. Хто відповідає, якщо оператор запустив пораду AI й затопив серверну?</legend>
+          <p class="question-hint">Одна правильна відповідь</p>
+          <label class="answer-option"><input type="radio" name="q3" value="a" required> Лише комп’ютер, бо він зробив розрахунок.</label>
+          <label class="answer-option"><input type="radio" name="q3" value="b"> Ніхто, якщо рішення підказала програма.</label>
+          <label class="answer-option"><input type="radio" name="q3" value="c"> Людина або організація, що використала AI і прийняла рішення.</label>
+        </fieldset>
+
+        <fieldset class="question" data-question="q4" data-type="multiple" data-correct="a,b">
+          <legend>4. Що варто зробити до натискання великої червоної кнопки?</legend>
+          <p class="question-hint">Кілька правильних відповідей</p>
+          <label class="answer-option"><input type="checkbox" name="q4" value="a"> Перевіряти важливі факти за надійними джерелами.</label>
+          <label class="answer-option"><input type="checkbox" name="q4" value="b"> Не надсилати конфіденційні дані без потреби.</label>
+          <label class="answer-option"><input type="checkbox" name="q4" value="c"> Дозволити AI без нагляду ухвалювати будь-які важливі рішення.</label>
+        </fieldset>
+
+        <fieldset class="question" data-question="q5" data-type="single" data-correct="b">
+          <legend>5. Чи доводить ця історія, що AI неминуче знищить світ?</legend>
+          <p class="question-hint">Одна правильна відповідь</p>
+          <label class="answer-option"><input type="radio" name="q5" value="a" required> Так, це вже доведений і неминучий сценарій.</label>
+          <label class="answer-option"><input type="radio" name="q5" value="b"> Ні. Є реальні ризики, але результат залежить від людей, правил і способу використання технології.</label>
+          <label class="answer-option"><input type="radio" name="q5" value="c"> Ні, бо AI ніколи не може завдати шкоди.</label>
+        </fieldset>
+
+        <button type="submit">Перевірити, чи пустять на ковчег</button>
+        <div class="result" id="quiz-result" role="status" aria-live="polite"></div>
+      </form>
+    </section>
+
+    <section class="signup-section" id="ark-signup" aria-labelledby="ark-title">
+      <p class="label">План Б · посадка починається</p>
+      <h2 id="ark-title">Забронюй місце на «Ноїв ковчег»</h2>
+      <p class="signup-intro">Капітан Ной приймає екіпаж. Вкажи псевдонім і вибери пасажирів. Пари тварин уже в черзі, роботи обіцяють не чіпати шлюзи.</p>
+      <form class="form-grid" id="ark-form">
+        <label class="form-field" for="ark-name">Твоє ім’я в судновому журналі
+          <input id="ark-name" name="nickname" type="text" maxlength="40" autocomplete="nickname" placeholder="Наприклад, Адмірал Сухих Шкарпеток" required>
+        </label>
+        <label class="form-field" for="ark-companion">Хто буде твоїм екіпажем?
+          <select id="ark-companion" name="companion" required>
+            <option value="" selected disabled>Обери супутника</option>
+            <option>Пару котів</option>
+            <option>Пару собак</option>
+            <option>Пару папуг</option>
+            <option>Команду роботів-помічників</option>
+            <option>Запас книжок і насіння</option>
+          </select>
+        </label>
+        <p class="privacy-note">Реєстрація навчальна: список пасажирів не зберігається. Ковчег поки що існує в HTML і добрих намірах.</p>
+        <button type="submit">Підтвердити посадку</button>
+        <div class="result" id="ark-result" role="status" aria-live="polite"></div>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <p>AIпотоп · Зроблено з HTML, CSS і краплею відповідального контролю</p>
+  </footer>
+  <script>
+    const quizForm = document.querySelector('#ai-quiz');
+    const quizResult = document.querySelector('#quiz-result');
+
+    quizForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      let score = 0;
+      const feedback = [];
+
+      quizForm.querySelectorAll('.question').forEach((question, index) => {
+        const selected = [...question.querySelectorAll('input:checked')]
+          .map((input) => input.value)
+          .sort();
+        const correct = question.dataset.correct.split(',').sort();
+        const isCorrect = selected.length === correct.length &&
+          selected.every((answer, answerIndex) => answer === correct[answerIndex]);
+
+        if (isCorrect) score += 1;
+        feedback.push(`<li><strong>${index + 1}. ${isCorrect ? 'Правильно' : 'Не зовсім'}.</strong> ${question.dataset.explanation}</li>`);
+      });
+
+      const verdict = score === 5 ? 'Ідеально! Тобі довіримо навіть сухий рушник.' : score >= 3 ? 'На борт! Але до пульта WebHMI поки не підпускаємо.' : 'Спершу інструктаж, потім рятувальна шлюпка.';
+      quizResult.innerHTML = `<strong>Твій результат: ${score} із 5. ${verdict}</strong><ul>${feedback.join('')}</ul>`;
+    });
+
+    const explanations = [
+      'Сучасний AI виконує конкретні завдання за допомогою моделей і даних; це не доказ людської свідомості.',
+      'Упередження в даних і неперевірені помилки — реальні ризики. Сценарій неминучого повстання машин не є фактом.',
+      'AI може допомагати, але відповідальність за застосування його поради залишається за людьми й організаціями.',
+      'Перевірка важливих відповідей і захист приватних даних зменшують ризики.',
+      'Майбутнє не визначене наперед: на нього впливають людські рішення, правила безпеки та контроль.'
+    ];
+
+    quizForm.querySelectorAll('.question').forEach((question, index) => {
+      question.dataset.explanation = explanations[index];
+    });
+
+    document.querySelector('#ark-form').addEventListener('submit', (event) => {
+      event.preventDefault();
+      const name = document.querySelector('#ark-name').value.trim();
+      const companion = document.querySelector('#ark-companion').value;
+      document.querySelector('#ark-result').textContent =
+        `Посадковий талон видано, ${name}! Екіпаж: ${companion}. Тримайся подалі від кнопки «відкрити шлюз» — це демо, запис у судновий журнал не зберігся.`;
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Навчальна HTML-форма для реєстрації на онлайн-курс з веброзробки.">
+  <title>Реєстрація на онлайн-курс</title>
+  <link rel="stylesheet" href="css/homework.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="index.html">ITSTEP <span>•</span> Навчання</a>
+    <nav class="site-nav" aria-label="Навігація навчальними сторінками">
+      <a href="hobby.html">Моє хобі</a>
+      <a href="portfolio.html">Портфоліо</a>
+      <a href="course-registration.html" aria-current="page">Реєстрація</a>
+      <a href="index.html">Зразок AIпотоп</a>
+    </nav>
+  </header>
+
+  <main class="page-wrap">
+    <section class="panel" aria-labelledby="page-title">
+      <p class="eyebrow">Навчальна форма</p>
+      <h1 id="page-title">Реєстрація на онлайн-курс</h1>
+      <p class="lead">Заповни поля, щоб обрати напрям і формат навчання. Це демонстраційна форма: вона перевіряє введення в браузері, але не надсилає та не зберігає дані.</p>
+    </section>
+
+    <section class="panel" aria-labelledby="form-title">
+      <h2 id="form-title">Дані учасника</h2>
+      <form class="form-layout" id="course-form" onsubmit="event.preventDefault(); document.getElementById('form-status').textContent='Перевірку пройдено. Дані не надсилалися і не зберігалися.';">
+        <div class="form-row">
+          <div class="field">
+            <label for="first-name">Ім’я</label>
+            <input id="first-name" name="firstName" type="text" autocomplete="given-name" required>
+          </div>
+          <div class="field">
+            <label for="last-name">Прізвище</label>
+            <input id="last-name" name="lastName" type="text" autocomplete="family-name" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="field">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" autocomplete="email" placeholder="name@example.com" required>
+          </div>
+          <div class="field">
+            <label for="age">Вік</label>
+            <input id="age" name="age" type="number" min="16" max="100" required>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="track">Напрям навчання</label>
+          <select id="track" name="track" required>
+            <option value="">Оберіть напрям</option>
+            <option value="html-css">HTML і CSS</option>
+            <option value="web-development">Веброзробка</option>
+            <option value="ai-tools">AI-інструменти</option>
+          </select>
+        </div>
+
+        <fieldset class="content-card">
+          <legend class="group-title">Формат навчання</legend>
+          <div class="choice-row">
+            <label class="choice" for="format-online"><input id="format-online" name="format" type="radio" value="online" required> Онлайн</label>
+            <label class="choice" for="format-offline"><input id="format-offline" name="format" type="radio" value="offline"> Офлайн</label>
+          </div>
+        </fieldset>
+
+        <fieldset class="content-card">
+          <legend class="group-title">Додаткові інтереси</legend>
+          <div class="choice-row">
+            <label class="choice" for="interest-design"><input id="interest-design" name="interests" type="checkbox" value="design"> Дизайн сайтів</label>
+            <label class="choice" for="interest-git"><input id="interest-git" name="interests" type="checkbox" value="git"> Git і GitHub</label>
+            <label class="choice" for="interest-ai"><input id="interest-ai" name="interests" type="checkbox" value="ai"> Штучний інтелект</label>
+          </div>
+        </fieldset>
+
+        <div class="field">
+          <label for="comment">Коментар</label>
+          <textarea id="comment" name="comment" rows="4" placeholder="Напиши, чого хочеш навчитися"></textarea>
+        </div>
+
+        <p class="hint">Поля з іменем, прізвищем, email, віком, напрямом і форматом обов’язкові.</p>
+        <div class="actions">
+          <button type="submit">Зареєструватися</button>
+          <button class="button-secondary" type="reset">Очистити форму</button>
+        </div>
+        <p class="status" id="form-status" role="status" aria-live="polite"></p>
+      </form>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>Демонстрація вбудованої HTML-валідації. Backend не підключений.</p>
+  </footer>
+</body>
+</html>

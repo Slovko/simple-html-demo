@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 330" role="img" aria-labelledby="title desc">
+  <title id="title">Створення вебсторінки</title>
+  <desc id="desc">Ноутбук із прикладом HTML-коду та бірюзовими деталями.</desc>
+  <rect width="420" height="330" rx="24" fill="#dff4f5"/>
+  <circle cx="330" cy="70" r="30" fill="#b9e9ec"/>
+  <path d="M72 257h273l-25 25H98z" fill="#176b87"/>
+  <rect x="105" y="83" width="210" height="155" rx="12" fill="#10233b"/>
+  <rect x="118" y="97" width="184" height="126" rx="5" fill="#f4fbfc"/>
+  <circle cx="130" cy="109" r="4" fill="#f28b65"/>
+  <circle cx="143" cy="109" r="4" fill="#f3c35b"/>
+  <circle cx="156" cy="109" r="4" fill="#36c7a2"/>
+  <path d="M139 137l-12 11 12 11m28-22 12 11-12 11m35-20-10 20" fill="none" stroke="#176b87" stroke-linecap="round" stroke-linejoin="round" stroke-width="6"/>
+  <rect x="137" y="180" width="104" height="7" rx="3.5" fill="#a8dce0"/>
+  <rect x="137" y="196" width="74" height="7" rx="3.5" fill="#d5e9ec"/>
+  <path d="M77 243h267l-19 14H96z" fill="#28c7d2"/>
+  <rect x="222" y="246" width="32" height="4" rx="2" fill="#176b87"/>
+  <path d="M341 77v43m-21-21h42" stroke="#f28b65" stroke-linecap="round" stroke-width="8"/>
+</svg>
