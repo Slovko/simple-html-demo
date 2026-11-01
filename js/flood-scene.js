@@ -35,10 +35,22 @@
   const hullMat = material('#74452f', .46);
 
   function addBox(parent, size, position, mat, radius = 0) {
-    const geometry = radius
-      ? new THREE.CapsuleGeometry(radius, Math.max(.05, size.y - radius * 2), 3, 6)
-      : new THREE.BoxGeometry(...size);
-    const mesh = new THREE.Mesh(geometry, mat);
+    if (radius) {
+      const group = new THREE.Group();
+      const shaftHeight = Math.max(.05, size[1] - radius * 2);
+      const shaft = new THREE.Mesh(new THREE.CylinderGeometry(radius, radius, shaftHeight, 10), mat);
+      group.add(shaft);
+      [-1, 1].forEach((side) => {
+        const cap = new THREE.Mesh(new THREE.SphereGeometry(radius, 10, 8), mat);
+        cap.position.y = side * shaftHeight / 2;
+        group.add(cap);
+      });
+      group.position.set(...position);
+      parent.add(group);
+      return group;
+    }
+
+    const mesh = new THREE.Mesh(new THREE.BoxGeometry(...size), mat);
     mesh.position.set(...position);
     parent.add(mesh);
     return mesh;
