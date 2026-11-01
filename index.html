@@ -29,16 +29,6 @@
       padding: 24px 18px;
     }
 
-    #flood-scene {
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      opacity: .88;
-    }
-
     body > header, body > main, body > footer { position: relative; z-index: 1; }
     body > header { z-index: 3; }
 
@@ -52,9 +42,9 @@
 
     body::before {
       background: linear-gradient(110deg, rgb(7 18 43 / 25%), transparent 58%),
-        url("assets/ai-pipe-flood-ark.png") center / cover no-repeat;
-      opacity: .48;
-      animation: flood-drift 28s ease-in-out infinite alternate;
+        url("assets/ai-flood-cinematic.jpg") center / cover no-repeat;
+      opacity: .96;
+      animation: flood-drift 42s ease-in-out infinite alternate;
     }
 
     body::after {
@@ -66,8 +56,8 @@
     }
 
     @keyframes flood-drift {
-      from { transform: scale(1) translate3d(-.4%, 0, 0); }
-      to { transform: scale(1.07) translate3d(.4%, -1%, 0); }
+      from { transform: scale(1.01) translate3d(-.2%, 0, 0); }
+      to { transform: scale(1.045) translate3d(.2%, -.4%, 0); }
     }
 
     @keyframes water-rise {
@@ -123,8 +113,8 @@
       padding: clamp(28px, 7vw, 56px);
       border: 1px solid #e2e8f0;
       border-radius: 24px;
-      background: rgb(255 255 255 / 22%);
-      backdrop-filter: blur(5px) saturate(1.12);
+      background: rgb(248 251 255 / 86%);
+      backdrop-filter: blur(14px) saturate(1.08);
       box-shadow: 0 18px 50px rgb(27 45 75 / 12%);
     }
 
@@ -132,8 +122,8 @@
       padding: 20px;
       border: 1px solid #e2e8f0;
       border-radius: 16px;
-      background: rgb(248 249 253 / 28%);
-      backdrop-filter: blur(3px);
+      background: rgb(250 252 255 / 91%);
+      backdrop-filter: blur(10px);
     }
 
     article h3 { margin-top: 0; }
@@ -147,8 +137,8 @@
       padding: 18px;
       border: 1px solid #dce3f1;
       border-radius: 16px;
-      background: rgb(248 249 253 / 28%);
-      backdrop-filter: blur(3px);
+      background: rgb(250 252 255 / 91%);
+      backdrop-filter: blur(10px);
     }
 
     .question legend { padding: 0 6px; font-weight: 750; }
@@ -182,7 +172,7 @@
       margin-top: 18px;
       padding: 16px;
       border-radius: 14px;
-      background: rgb(237 241 255 / 54%);
+      background: rgb(237 243 255 / 94%);
       backdrop-filter: blur(4px);
       line-height: 1.6;
     }
@@ -199,7 +189,7 @@
       padding: 10px 12px;
       border: 1px solid #cbd4e4;
       border-radius: 10px;
-      background: rgb(255 255 255 / 66%);
+      background: rgb(255 255 255 / 94%);
       backdrop-filter: blur(4px);
       color: #172033;
       font: inherit;
@@ -217,7 +207,7 @@
 
     aside {
       padding: 22px 26px;
-      background: rgb(237 241 255 / 28%);
+      background: rgb(242 247 255 / 88%);
       box-shadow: none;
     }
 
@@ -274,7 +264,6 @@
   </style>
 </head>
 <body>
-  <canvas id="flood-scene" aria-hidden="true"></canvas>
   <header>
     <p class="brand">AIпотоп · аварійний штаб</p>
     <nav aria-label="Навігація аварійним штабом">
@@ -434,8 +423,6 @@
         `Посадковий талон видано, ${name}! Екіпаж: ${companion}. Тримайся подалі від кнопки «відкрити шлюз» — це демо, запис у судновий журнал не зберігся.`;
     });
   </script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
-  <script src="js/flood-scene.js" defer></script>
   <script src="js/page-effects.js" defer></script>
 </body>
 </html>
