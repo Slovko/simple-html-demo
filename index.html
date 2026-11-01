@@ -79,7 +79,8 @@
 
     .brand {
       margin: 0;
-      color: #26345b;
+      color: #f8fbff;
+      text-shadow: 0 2px 18px rgb(0 0 0 / 45%);
       font-size: 1.1rem;
       font-weight: 800;
     }
@@ -93,12 +94,15 @@
     nav a {
       padding: 9px 13px;
       border: 1px solid #dce3f1;
-      background: rgb(255 255 255 / 24%);
-      backdrop-filter: blur(5px);
-      color: #4055a6;
+      background: rgb(9 24 43 / 78%);
+      border-color: rgb(255 255 255 / 34%);
+      backdrop-filter: blur(12px);
+      color: #f8fbff;
+      box-shadow: 0 8px 24px rgb(0 0 0 / 14%);
+      transition: background-color .25s ease, color .25s ease, transform .25s ease;
     }
 
-    nav a:hover { background: #edf1ff; }
+    nav a:hover { background: #8ce7f3; color: #10233b; transform: translateY(-2px); }
     nav a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible {
       outline: 3px solid #172033;
       outline-offset: 3px;
