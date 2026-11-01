@@ -29,6 +29,19 @@
       padding: 24px 18px;
     }
 
+    #flood-scene {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      opacity: .88;
+    }
+
+    body > header, body > main, body > footer { position: relative; z-index: 1; }
+    body > header { z-index: 3; }
+
     body::before, body::after {
       content: "";
       position: fixed;
@@ -261,6 +274,7 @@
   </style>
 </head>
 <body>
+  <canvas id="flood-scene" aria-hidden="true"></canvas>
   <header>
     <p class="brand">AIпотоп · аварійний штаб</p>
     <nav aria-label="Навігація аварійним штабом">
@@ -419,6 +433,8 @@
         `Посадковий талон видано, ${name}! Екіпаж: ${companion}. Тримайся подалі від кнопки «відкрити шлюз» — це демо, запис у судновий журнал не зберігся.`;
     });
   </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
+  <script src="js/flood-scene.js" defer></script>
   <script src="js/page-effects.js" defer></script>
 </body>
 </html>
